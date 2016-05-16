@@ -132,11 +132,11 @@ namespace ARSoft.Tools.Net.Dns
 		/// </summary>
 		public void Stop()
 		{
-			if (_udpListenerCount > 0)
+			if (_udpListener != null && _udpListenerCount > 0)
 			{
 				_udpListener.Close();
 			}
-			if (_tcpListenerCount > 0)
+			if (_tcpListener != null && _tcpListenerCount > 0)
 			{
 				_tcpListener.Stop();
 			}
@@ -369,7 +369,7 @@ namespace ARSoft.Tools.Net.Dns
 		{
 			lock (_listenerLock)
 			{
-				if (!_tcpListener.Server.IsBound) // server is stopped
+				if ((_tcpListener.Server == null) || !_tcpListener.Server.IsBound) // server is stopped
 					return;
 
 				if ((_availableTcpListener > 0) && !_hasActiveTcpListener)
